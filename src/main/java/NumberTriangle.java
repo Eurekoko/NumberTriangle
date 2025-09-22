@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.ArrayList;
 
 /**
  * This is the provided NumberTriangle class to be used in this coding task.
@@ -117,8 +118,8 @@ public class NumberTriangle {
         InputStream inputStream = NumberTriangle.class.getClassLoader().getResourceAsStream(fname);
         BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
 
+        NumberTriangle[] recordedRownNodes = null;
 
-        // TODO define any variables that you want to use to store things
 
         // will need to return the top of the NumberTriangle,
         // so might want a variable for that.
@@ -126,11 +127,32 @@ public class NumberTriangle {
 
         String line = br.readLine();
         while (line != null) {
+            line = line.trim();
+            if (line.isEmpty()) {
+                line = br.readLine();
+                continue;
+            }
 
-            // remove when done; this line is included so running starter code prints the contents of the file
-            System.out.println(line);
+            String[] numberStrings = line.split(" ");
+            NumberTriangle[] currentRownNodes = new NumberTriangle[numberStrings.length];
+            for (int i = 0; i < numberStrings.length; i++) {
+                int number = Integer.parseInt(numberStrings[i]);
+                currentRownNodes[i] = new NumberTriangle(number);
+            }
 
-            // TODO process the line
+            if(recordedRownNodes != null) {
+                for (int i = 0; i < recordedRownNodes.length; i++) {
+                    NumberTriangle parent = recordedRownNodes[i];
+                    NumberTriangle leftchild = currentRownNodes[i];
+                    NumberTriangle rightchild = currentRownNodes[i + 1];
+                    parent.setLeft(leftchild);
+                    parent.setRight(rightchild);
+                }
+            } else {
+                top = currentRownNodes[0];
+            }
+
+            recordedRownNodes = currentRownNodes;
 
             //read the next line
             line = br.readLine();

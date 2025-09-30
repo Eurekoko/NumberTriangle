@@ -64,8 +64,30 @@ public class NumberTriangle {
      * Note: a NumberTriangle contains at least one value.
      */
     public void maxSumPath() {
-        // for fun [not for credit]:
+
+        if (this.isLeaf()) {
+            return; // 叶子节点，保持原值
+        }
+
+        if (this.left != null) {
+            this.left.maxSumPath();
+        }
+        if (this.right != null) {
+            this.right.maxSumPath();
+        }
+
+        int leftSum = (left == null) ? 0 : left.getRoot();
+        int rightSum = (right == null) ? 0 : right.getRoot();
+
+        // 更新当前节点值为最大路径和
+        this.root += Math.max(leftSum, rightSum);
+
+        // 变成叶子
+        this.left = null;
+        this.right = null;
     }
+        // for fun [not for credit]:
+
 
 
     public boolean isLeaf() {
